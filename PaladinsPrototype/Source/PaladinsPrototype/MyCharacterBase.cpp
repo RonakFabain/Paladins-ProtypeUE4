@@ -28,9 +28,12 @@ AMyCharacterBase::AMyCharacterBase()
 	WeaponMeshComponent->SetupAttachment(CameraComponent);
 
 	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("Weapon Component"));
-	
+
 	BaseLookUpAtRate = 45;
 	BaseTurnRate = 45;
+
+	bUseControllerRotationPitch = true	;
+	bUseControllerRotationYaw = true;
 }
 
 void AMyCharacterBase::MoveForward(float Value)
@@ -66,19 +69,22 @@ void AMyCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyCharacterBase::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMyCharacterBase::MoveRight);
 
-	bUseControllerRotationPitch = true;
+	
+
+
+
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
 	///Binding different actions
-	
+
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyCharacterBase::Fire);
 	PlayerInputComponent->BindAction("RMB", IE_Pressed, this, &AMyCharacterBase::RMB);
 	PlayerInputComponent->BindAction("Q", IE_Pressed, this, &AMyCharacterBase::QAction);
 	PlayerInputComponent->BindAction("F", IE_Pressed, this, &AMyCharacterBase::FAction);
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMyCharacterBase::Reload);
 	//T to spray?
-	
+
 }
 
 void AMyCharacterBase::TakeDamage(int dmgAmount)

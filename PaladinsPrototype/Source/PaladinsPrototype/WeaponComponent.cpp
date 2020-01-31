@@ -2,7 +2,8 @@
 
 
 #include "WeaponComponent.h"
-
+#include "GameFramework/PlayerController.h"
+#include "GameFramework/Pawn.h"
 
 // Sets default values for this component's properties
 UWeaponComponent::UWeaponComponent()
@@ -21,6 +22,12 @@ void UWeaponComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
+	FP_MuzzleLocation = GetOwner()->FindComponentByClass<USceneComponent>();
+	if (!FP_MuzzleLocation)
+		UE_LOG(LogTemp, Warning, TEXT("Not FOund"));
+
+
+
 
 }
 
@@ -61,7 +68,7 @@ void UWeaponComponent::Aim()
 
 
 
-			const FRotator SpawnRotation = GetOwner()->GetActorRotation();
+			const FRotator SpawnRotation = GetWorld()->GetFirstPlayerController()->GetControlRotation();
 			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 			const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetOwner()->GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 

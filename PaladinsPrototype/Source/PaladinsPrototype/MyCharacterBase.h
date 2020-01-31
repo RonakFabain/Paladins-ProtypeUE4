@@ -18,15 +18,14 @@ class PALADINSPROTOTYPE_API AMyCharacterBase : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AMyCharacterBase();
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = " Camera")
-		USpringArmComponent* SpringArmComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = " Camera")
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = " Camera")
 		UCameraComponent* CameraComponent;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = " Player")
 		UStaticMeshComponent* WeaponMeshComponent;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = " Player")
 		UWeaponComponent* WeaponComponent = nullptr;
 
@@ -40,24 +39,35 @@ protected:
 		float BaseTurnRate;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = " Camera")
 		float BaseLookUpAtRate;
+
+	UPROPERTY(EditAnywhere, Category = "ABILITY COOLDOWNS")
+		float FCoolDown;
+	UPROPERTY(EditAnywhere, Category = "ABILITY COOLDOWNS")
+		float QCoolDown;
+	UPROPERTY(EditAnywhere, Category = "ABILITY COOLDOWNS")
+		float RMBCoolDown;
+	
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
 	void TakeDamage(int dmgAmount);
 	void Die();
-	
+
+
 	//Use Interface to implement Actions
-	virtual void Fire() PURE_VIRTUAL(AMyCharacterBase::Fire,  );
-	virtual void RMB() PURE_VIRTUAL(AMyCharacterBase::RMB,  );
-	virtual void FAction() PURE_VIRTUAL(AMyCharacterBase::FAction,  );
-	virtual void QAction() PURE_VIRTUAL(AMyCharacterBase::QAction,  );
-	virtual void Reload() PURE_VIRTUAL(AMyCharacterBase::Reload,  );
+	virtual void Fire() PURE_VIRTUAL(AMyCharacterBase::Fire, );
+	virtual void RMB() PURE_VIRTUAL(AMyCharacterBase::RMB, );
+	virtual void FAction() PURE_VIRTUAL(AMyCharacterBase::FAction, );
+	virtual void QAction() PURE_VIRTUAL(AMyCharacterBase::QAction, );
+	virtual void Reload() PURE_VIRTUAL(AMyCharacterBase::Reload, );
 
 
+
+	FORCEINLINE UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 
 
 private:

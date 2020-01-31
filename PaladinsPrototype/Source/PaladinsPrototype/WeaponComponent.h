@@ -9,8 +9,12 @@
 #include "GameFramework/Controller.h"
 #include "Bullet.h"
 #include "Engine/World.h"
+#include "Components/SceneComponent.h"
 #include "WeaponComponent.generated.h"
 
+///-A weapon class. This is an actor component class.
+//-Each weapon class holds a mesh
+//-becomes a child of the player, and then attaches to a socket
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class PALADINSPROTOTYPE_API UWeaponComponent : public UActorComponent
@@ -24,15 +28,16 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector GunOffset;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABullet> ProjectileClass;
 
-	UPROPERTY(EditAnywhere, Category = Mesh)
-		class USceneComponent* FP_MuzzleLocation;
+	
+		 USceneComponent* FP_MuzzleLocation=nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		FVector GunOffset;
+
 
 public:
 	// Called every frame
@@ -51,6 +56,10 @@ private:
 		int magazineAmmoCapacity;
 	UPROPERTY(EditAnywhere)
 		int currentAmmoCount;
+	UPROPERTY(EditAnywhere)
+		int rateOfFire;
+
+	
 
 
 };
