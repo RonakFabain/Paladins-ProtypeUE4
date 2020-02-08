@@ -75,8 +75,7 @@ private:
 	float currentHealth;
 	UPROPERTY(EditAnywhere)
 		float MAXHealth;
-	UPROPERTY(EditAnywhere)
-		float movementSpeed;
+
 
 
 

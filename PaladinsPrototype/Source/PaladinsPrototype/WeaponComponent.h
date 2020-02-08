@@ -34,7 +34,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class ABullet> ProjectileClass;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		 USceneComponent* FP_MuzzleLocation=nullptr;
 
 

@@ -32,8 +32,9 @@ AMyCharacterBase::AMyCharacterBase()
 	BaseLookUpAtRate = 45;
 	BaseTurnRate = 45;
 
-	bUseControllerRotationPitch = true	;
+	bUseControllerRotationPitch = true;
 	bUseControllerRotationYaw = true;
+	
 }
 
 void AMyCharacterBase::MoveForward(float Value)
