@@ -25,6 +25,9 @@ private:
 
 	AActor* myShield;
 	FTimerHandle Duration;
+	float ShieldTimer = 0;
+
+	//bool canSpawnShield;
 protected:
 	AMakoa();
 	void BeginPlay() override;
@@ -46,8 +49,7 @@ public:
 		void FRequestFunction();
 	UFUNCTION(BlueprintImplementableEvent)
 		void RMBRequestFunction();
-	UFUNCTION(BlueprintImplementableEvent)
-		void QRequestFunction();
+
 
 	UPROPERTY(EditAnywhere)
 		float	QLifeTime = 0;
@@ -58,4 +60,8 @@ public:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 		bool bCanUseDash;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bCanUseShield;
+	
 };

@@ -7,17 +7,28 @@ AMakoa::AMakoa()
 {
 	QLifeTime = 2.f;
 	FLifeTime = 1.f;
+	bCanUseShield = true;
 }
 
 void AMakoa::BeginPlay()
 {
 	Super::BeginPlay();
 
+	
 }
 
 void AMakoa::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	ShieldTimer += DeltaTime;
+	if (ShieldTimer >= QLifeTime)
+	{
+		ShieldTimer = 0;
+		bCanUseShield = true;
+	}
+
+
 }
 
 void AMakoa::Fire()
@@ -37,24 +48,30 @@ void AMakoa::RMB()
 void AMakoa::FAction()
 {
 	UE_LOG(LogTemp, Warning, TEXT("MAKOA FAction"));
-	if(bCanUseDash)
-	FRequestFunction();
+	if (bCanUseDash)
+		FRequestFunction();
 
 }
 
 void AMakoa::QAction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("MAKOA QAction"));
-	QRequestFunction();
-	
-	
-	UWorld* const World = GetWorld();
-	if (World != NULL)
+	if (bCanUseShield)
 	{
-		FActorSpawnParameters SpawnParameters;
-		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		myShield = World->SpawnActor<AActor>(Shield, GetActorLocation(), GetActorRotation(), SpawnParameters);
-		myShield->SetLifeSpan(QLifeTime);
+		bCanUseShield = false;
+
+
+		UE_LOG(LogTemp, Warning, TEXT("MAKOA QAction"));
+
+
+		UWorld* const World = GetWorld();
+		if (World != NULL)
+		{
+			FActorSpawnParameters SpawnParameters;
+			SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			myShield = World->SpawnActor<AActor>(Shield, GetActorLocation(), GetActorRotation(), SpawnParameters);
+			myShield->SetLifeSpan(QLifeTime-1);
+
+		}
 	}
 
 
@@ -64,7 +81,7 @@ void AMakoa::QAction()
 void AMakoa::Reload()
 {
 	UE_LOG(LogTemp, Warning, TEXT("MAKOA Reload"));
-	
+
 
 }
 
