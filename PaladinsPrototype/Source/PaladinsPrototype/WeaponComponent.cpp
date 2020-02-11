@@ -2,6 +2,8 @@
 
 
 #include "WeaponComponent.h"
+#include "ObjectPrefabBase.h"
+#include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Pawn.h"
 
@@ -26,7 +28,7 @@ void UWeaponComponent::BeginPlay()
 	if (!FP_MuzzleLocation)
 		UE_LOG(LogTemp, Warning, TEXT("Not FOund"));
 
-
+	
 
 
 }
@@ -66,25 +68,27 @@ void UWeaponComponent::Aim()
 		if (World != NULL)
 		{
 
-
-
-			const FRotator SpawnRotation = GetWorld()->GetFirstPlayerController()->GetControlRotation();
+			const FRotator SpawnRotation = GetOwner()->GetActorForwardVector().Rotation();
 			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-			const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetOwner()->GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
+			const FVector SpawnLocation = FP_MuzzleLocation->GetComponentLocation();
 
 			//Set Spawn Collision Handling Override
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 			// spawn the projectile at the muzzle
-			World->SpawnActor<ABullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-
+			//World->SpawnActor<ABullet>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		/*	AObjectPrefabBase* PoolableActor = ObjectPooler->GetPooledObject();
+			if (PoolableActor == nullptr) {
+				UE_LOG(LogTemp, Warning, TEXT("Cannot spawn - object pool drained. "));
+				return;
+			}
+			else
+			{
+				PoolableActor->SetActorLocation(SpawnLocation);
+				PoolableActor->SetLifeSpan(2);
+				PoolableActor->SetActive(true);
+			}*/
 		}
 	}
 }
-
-void UWeaponComponent::RotatePhysics()
-{
-	//Rotate to weapon sway
-}
-

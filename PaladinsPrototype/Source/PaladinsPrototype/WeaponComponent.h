@@ -7,6 +7,8 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Controller.h"
+#include "ObjectPrefabBase.h"
+#include "ObjectPool.h"
 #include "Bullet.h"
 #include "Engine/World.h"
 #include "Components/SceneComponent.h"
@@ -16,7 +18,7 @@
 //-Each weapon class holds a mesh
 //-becomes a child of the player, and then attaches to a socket
 
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS()
 class PALADINSPROTOTYPE_API UWeaponComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -31,24 +33,31 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector GunOffset;
 
-	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		TSubclassOf<class ABullet> ProjectileClass;
+	/*UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class ABullet> ProjectileClass;*/
 
-	
-		 USceneComponent* FP_MuzzleLocation=nullptr;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class AObjectPrefabBase> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USceneComponent* FP_MuzzleLocation = nullptr;
 
 
 
 public:
+
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void LaunchProjectile();
 	void PlayReload();
 	void Aim();
-	void RotatePhysics();
+	
+
+	/*UPROPERTY(EditAnywhere, Category = "Spawner")
+		UObjectPool* ObjectPooler;*/
 
 private:
-	
+
 
 	UPROPERTY(EditAnywhere)
 		int MAXAmmoCapacity;
@@ -59,7 +68,7 @@ private:
 	UPROPERTY(EditAnywhere)
 		int rateOfFire;
 
-	
+
 
 
 };
